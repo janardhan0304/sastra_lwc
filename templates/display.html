@@ -1,0 +1,99 @@
+<html>
+  <head>
+
+    <title>about your location</title>
+    
+    <style>
+        body {
+          background-color: black;
+          color: white;
+          font-family: Arial, sans-serif;
+        }
+      
+        .mainheading {
+          color: rgb(41, 222, 62);
+          font-size: xx-large;
+          border: 2px solid rgb(41, 222, 62);
+          margin: 20px 30% 10px 30%;
+          border-radius: 20px;
+          text-align: center;
+          transition: all 0.5s ease;
+        }
+      
+        .mainheading:hover {
+          font-size: xxx-large;
+          cursor: pointer;
+        }
+      
+        .soilcontent {
+          border: 2px solid blue;
+          margin: 20px 30% 10px 30%;
+          border-radius: 10px;
+          background-color: lightblue;
+          color: black;
+          font-size: larger;
+          transition: all 0.5s ease;
+        }
+      
+        table,
+        td {
+          margin-top: 30px;
+          border: 1px solid;
+          padding: 2px;
+          color: black;
+        }
+      
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+      
+        li {
+          margin-bottom: 10px;
+          font-size: large;
+          transition: all 0.5s ease;
+        }
+      
+        li:hover {
+          color: blue;
+          cursor: pointer;
+        }
+      </style>
+      
+    <script>
+
+    </script>
+  
+  </head>
+  <body>
+    <center>
+
+        <h2 class="mainheading">All About Your Location</h2>
+
+    <div class="soilcontent">
+        <table>
+            <tr>
+            <td> <h3> State</h3></td> <td><h3> {{x.state}} </h3></td>
+            </tr>
+            <tr><td><h3> District </h3></td> <td><h3> {{x.district}} </h3></td></tr>
+                <tr><td><h3> Month </h3></td> <td><h3> {{x.month}} </h3></td></tr>
+                    <tr><td><h3> Nitrogen Content  </h3></td> <td><h3> {{x.n_val}} </h3></td></tr>
+                        <tr><td><h3> Pottasium Content  </h3></td> <td><h3> {{x.k_val}} </h3></td></tr>
+                            <tr><td><h3> Phosporous Content </h3></td> <td><h3> {{x.p_val}} </h3></td></tr>
+                                <tr><td><h3> pH Value </h3></td> <td><h3> {{x.ph_val}} </h3></td></tr>
+                                    <tr><td><h3> Humidity </h3></td> <td><h3> {{x.humidity}} </h3></td></tr>
+                                        <tr><td><h3> Temperature </h3></td> <td><h3> {{x.temperature}} </h3></td></tr>
+                                            <tr><td><h3> Precipitation </h3></td> <td><h3> {{x.precip}} </h3></td></tr>
+                                        </table>
+                                        <br>
+        <h2>Suggested crops only for you </h2>                                    
+        <ul>
+        {%for i in y%}
+        <h3>{{i}}</h3>
+        {%endfor%}
+        </ul>
+    </div>
+    
+</center>
+  </body>
+</html>

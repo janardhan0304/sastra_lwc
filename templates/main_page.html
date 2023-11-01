@@ -1,0 +1,375 @@
+<html>
+  <head>
+
+    <title>crop suggestions</title>
+    
+    <style>
+      body{
+        background-color: black;
+    }
+    .dropdownselect{
+            color: white;
+            background-color: lightblue;
+            margin:0% 30% 2% 30%;
+            border-radius: 10px;
+    }
+    
+    .mainheading{
+        color: rgb(41, 222, 62);
+        font-size: xx-large;
+        border: 2px solid rgb(41, 222, 62);;
+        margin: 20px 30% 10px 30% ;
+        border-radius: 20px;
+    }
+    .mainheading:hover{
+        {% comment %} color:blue; {% endcomment %}
+        font-size: xx-large;
+        border: 2px solid rgb(41, 222, 62);;
+        margin: 20px 30% 10px 30% ;
+        border-radius: 20px;
+    }
+    .descrpn{
+        color: white;
+        font-size: xx-large;
+        margin: 20px 30% 10px 30% ;
+    }
+    .descrpn:hover{
+        {% comment %} color:blue; {% endcomment %}
+        font-size: xx-large;
+        margin: 20px 30% 10px 30%;
+        border-radius: 20px;
+    }
+    .caption{
+        color: aliceblue;
+            font-size: larger;
+            margin: 20px 30% 50px 30% ;
+    }
+    .caption:hover{
+            {% comment %} color:  blue; {% endcomment %}
+            font-size: larger;
+            margin: 20px 30% 50px 30% ;
+            border-radius: 20px;
+    }
+    
+    #statelist{
+        margin: 20px;
+        cursor: pointer;
+        font-size: larger;
+        padding: 5px;
+        border: 1px solid white;
+        border-radius: 50px;
+    }
+    
+    #districtList{
+        margin: 20px;
+        font-size: larger;
+        padding: 5px;
+        cursor: pointer;
+        border: 1px solid white;
+        border-radius: 50px;
+    }
+    
+    #month{
+        margin: 20px;
+        font-size: larger;
+        padding: 5px;
+        cursor: pointer;
+        border: 1px solid white;
+        border-radius: 50px;
+        margin-bottom: 10px;
+    }
+    
+    .findbtn{
+        padding: 10px;
+        border-radius: 9px;
+        font-size: x-large;
+        background-color: rgb(158, 82, 238);
+        cursor: pointer;
+    }
+
+    .findbtn:hover{
+      padding: 10px;
+      border-radius: 9px;
+      color:white;
+      cursor: pointer;
+      font-size: x-large;
+      background-color: rgb(130, 70, 210);
+  }
+  .tobehidden{
+    visibility:hidden;
+  }
+    </style>
+
+    <script>
+
+      var stateDistricts = {'Andaman and Nicobar Islands': ['NICOBARS', 'NORTH AND MIDDLE ANDAMAN', 'SOUTH ANDAMANS'],
+       'Andhra Pradesh': ['ANANTAPUR', 'CHITTOOR', 'EAST GODAVARI', 'GUNTUR', 'KADAPA', 'KRISHNA', 'KURNOOL', 'PRAKASAM', 'SPSR NELLORE', 'SRIKAKULAM', 'VISAKHAPATANAM', 'VIZIANAGARAM', 'WEST GODAVARI'],
+       'Arunachal Pradesh': ['ANJAW', 'CHANGLANG', 'DIBANG VALLEY', 'EAST KAMENG', 'EAST SIANG', 'KURUNG KUMEY', 'LOHIT', 'LONGDING', 'LOWER DIBANG VALLEY', 'LOWER SUBANSIRI', 'NAMSAI', 'PAPUM PARE', 'TAWANG', 'TIRAP', 'UPPER SIANG', 'UPPER SUBANSIRI', 'WEST KAMENG', 'WEST SIANG'],
+       'Assam': ['BAKSA', 'BARPETA', 'BONGAIGAON', 'CACHAR', 'CHIRANG', 'DARRANG', 'DHEMAJI', 'DHUBRI', 'DIBRUGARH', 'DIMA HASAO', 'GOALPARA', 'GOLAGHAT', 'HAILAKANDI', 'JORHAT', 'KAMRUP', 'KAMRUP METRO', 'KARBI ANGLONG', 'KARIMGANJ', 'KOKRAJHAR', 'LAKHIMPUR', 'MARIGAON', 'NAGAON', 'NALBARI', 'SIVASAGAR', 'SONITPUR', 'TINSUKIA', 'UDALGURI'],
+       'Bihar': ['ARARIA', 'ARWAL', 'AURANGABAD', 'BANKA', 'BEGUSARAI', 'BHAGALPUR', 'BHOJPUR', 'BUXAR', 'DARBHANGA', 'GAYA', 'GOPALGANJ', 'JAMUI', 'JEHANABAD', 'KAIMUR (BHABUA)', 'KATIHAR', 'KHAGARIA', 'KISHANGANJ', 'LAKHISARAI', 'MADHEPURA', 'MADHUBANI', 'MUNGER', 'MUZAFFARPUR', 'NALANDA', 'NAWADA', 'PASHCHIM CHAMPARAN', 'PATNA', 'PURBI CHAMPARAN', 'PURNIA', 'ROHTAS', 'SAHARSA', 'SAMASTIPUR', 'SARAN', 'SHEIKHPURA', 'SHEOHAR', 'SITAMARHI', 'SIWAN', 'SUPAUL', 'VAISHALI'],
+       'Chandigarh': ['CHANDIGARH'], 
+       'Chhattisgarh': ['BALOD', 'BALODA BAZAR', 'BALRAMPUR', 'BASTAR', 'BEMETARA', 'BIJAPUR', 'BILASPUR', 'DANTEWADA', 'DHAMTARI', 'DURG', 'GARIYABAND', 'JANJGIR-CHAMPA', 'JASHPUR', 'KABIRDHAM', 'KANKER', 'KONDAGAON', 'KORBA', 'KOREA', 'MAHASAMUND', 'MUNGELI', 'NARAYANPUR', 'RAIGARH', 'RAIPUR', 'RAJNANDGAON', 'SUKMA', 'SURAJPUR', 'SURGUJA'], 
+       'Dadra and Nagar Haveli': ['DADRA AND NAGAR HAVELI'], 
+       'Goa': ['NORTH GOA', 'SOUTH GOA'], 
+       'Gujarat': ['AHMADABAD', 'AMRELI', 'ANAND', 'BANAS KANTHA', 'BHARUCH', 'BHAVNAGAR', 'DANG', 'DOHAD', 'GANDHINAGAR', 'JAMNAGAR', 'JUNAGADH', 'KACHCHH', 'KHEDA', 'MAHESANA', 'NARMADA', 'NAVSARI', 'PANCH MAHALS', 'PATAN', 'PORBANDAR', 'RAJKOT', 'SABAR KANTHA', 'SURAT', 'SURENDRANAGAR', 'TAPI', 'VADODARA', 'VALSAD'], 
+       'Haryana': ['AMBALA', 'BHIWANI', 'FARIDABAD', 'FATEHABAD', 'GURGAON', 'HISAR', 'JHAJJAR', 'JIND', 'KAITHAL', 'KARNAL', 'KURUKSHETRA', 'MAHENDRAGARH', 'MEWAT', 'PALWAL', 'PANCHKULA', 'PANIPAT', 'REWARI', 'ROHTAK', 'SIRSA', 'SONIPAT', 'YAMUNANAGAR'], 
+       'Himachal Pradesh': ['BILASPUR', 'CHAMBA', 'HAMIRPUR', 'KANGRA', 'KINNAUR', 'KULLU', 'LAHUL AND SPITI', 'MANDI', 'SHIMLA', 'SIRMAUR', 'SOLAN', 'UNA'], 
+       'Jammu and Kashmir ': ['ANANTNAG', 'BADGAM', 'BANDIPORA', 'BARAMULLA', 'DODA', 'GANDERBAL', 'JAMMU', 'KARGIL', 'KATHUA', 'KISHTWAR', 'KULGAM', 'KUPWARA', 'LEH LADAKH', 'POONCH', 'PULWAMA', 'RAJAURI', 'RAMBAN', 'REASI', 'SAMBA', 'SHOPIAN', 'SRINAGAR', 'UDHAMPUR'],
+       'Jharkhand': ['BOKARO', 'CHATRA', 'DEOGHAR', 'DHANBAD', 'DUMKA', 'EAST SINGHBUM', 'GARHWA', 'GIRIDIH', 'GODDA', 'GUMLA', 'HAZARIBAGH', 'JAMTARA', 'KHUNTI', 'KODERMA', 'LATEHAR', 'LOHARDAGA', 'PAKUR', 'PALAMU', 'RAMGARH', 'RANCHI', 'SAHEBGANJ', 'SARAIKELA KHARSAWAN', 'SIMDEGA', 'WEST SINGHBHUM'], 
+       'Karnataka': ['BAGALKOT', 'BANGALORE RURAL', 'BELGAUM', 'BELLARY', 'BENGALURU URBAN', 'BIDAR', 'BIJAPUR', 'CHAMARAJANAGAR', 'CHIKBALLAPUR', 'CHIKMAGALUR', 'CHITRADURGA', 'DAKSHIN KANNAD', 'DAVANGERE', 'DHARWAD', 'GADAG', 'GULBARGA', 'HASSAN', 'HAVERI', 'KODAGU', 'KOLAR', 'KOPPAL', 'MANDYA', 'MYSORE', 'RAICHUR', 'RAMANAGARA', 'SHIMOGA', 'TUMKUR', 'UDUPI', 'UTTAR KANNAD', 'YADGIR'], 
+       'Kerala': ['ALAPPUZHA', 'ERNAKULAM', 'IDUKKI', 'KANNUR', 'KASARAGOD', 'KOLLAM', 'KOTTAYAM', 'KOZHIKODE', 'MALAPPURAM', 'PALAKKAD', 'PATHANAMTHITTA', 'THIRUVANANTHAPURAM', 'THRISSUR', 'WAYANAD'], 
+       'Madhya Pradesh': ['AGAR MALWA', 'ALIRAJPUR', 'ANUPPUR', 'ASHOKNAGAR', 'BALAGHAT', 'BARWANI', 'BETUL', 'BHIND', 'BHOPAL', 'BURHANPUR', 'CHHATARPUR', 'CHHINDWARA', 'DAMOH', 'DATIA', 'DEWAS', 'DHAR', 'DINDORI', 'GUNA', 'GWALIOR', 'HARDA', 'HOSHANGABAD', 'INDORE', 'JABALPUR', 'JHABUA', 'KATNI', 'KHANDWA', 'KHARGONE', 'MANDLA', 'MANDSAUR', 'MORENA', 'NARSINGHPUR', 'NEEMUCH', 'PANNA', 'RAISEN', 'RAJGARH', 'RATLAM', 'REWA', 'SAGAR', 'SATNA', 'SEHORE', 'SEONI', 'SHAHDOL', 'SHAJAPUR', 'SHEOPUR', 'SHIVPURI', 'SIDHI', 'SINGRAULI', 'TIKAMGARH', 'UJJAIN', 'UMARIA', 'VIDISHA'], 
+       'Maharashtra': ['AHMEDNAGAR', 'AKOLA', 'AMRAVATI', 'AURANGABAD', 'BEED', 'BHANDARA', 'BULDHANA', 'CHANDRAPUR', 'DHULE', 'GADCHIROLI', 'GONDIA', 'HINGOLI', 'JALGAON', 'JALNA', 'KOLHAPUR', 'LATUR', 'MUMBAI', 'NAGPUR', 'NANDED', 'NANDURBAR', 'NASHIK', 'OSMANABAD', 'PALGHAR', 'PARBHANI', 'PUNE', 'RAIGAD', 'RATNAGIRI', 'SANGLI', 'SATARA', 'SINDHUDURG', 'SOLAPUR', 'THANE', 'WARDHA', 'WASHIM', 'YAVATMAL'], 
+       'Manipur': ['BISHNUPUR', 'CHANDEL', 'CHURACHANDPUR', 'IMPHAL EAST', 'IMPHAL WEST', 'SENAPATI', 'TAMENGLONG', 'THOUBAL', 'UKHRUL'], 
+       'Meghalaya': ['EAST GARO HILLS', 'EAST JAINTIA HILLS', 'EAST KHASI HILLS', 'NORTH GARO HILLS', 'RI BHOI', 'SOUTH GARO HILLS', 'SOUTH WEST GARO HILLS', 'SOUTH WEST KHASI HILLS', 'WEST GARO HILLS', 'WEST JAINTIA HILLS', 'WEST KHASI HILLS'], 
+       'Mizoram': ['AIZAWL', 'CHAMPHAI', 'KOLASIB', 'LAWNGTLAI', 'LUNGLEI', 'MAMIT', 'SAIHA', 'SERCHHIP'], 
+       'Nagaland': ['DIMAPUR', 'KIPHIRE', 'KOHIMA', 'LONGLENG', 'MOKOKCHUNG', 'MON', 'PEREN', 'PHEK', 'TUENSANG', 'WOKHA', 'ZUNHEBOTO'], 
+       'Odisha': ['ANUGUL', 'BALANGIR', 'BALESHWAR', 'BARGARH', 'BHADRAK', 'BOUDH', 'CUTTACK', 'DEOGARH', 'DHENKANAL', 'GAJAPATI', 'GANJAM', 'JAGATSINGHAPUR', 'JAJAPUR', 'JHARSUGUDA', 'KALAHANDI', 'KANDHAMAL', 'KENDRAPARA', 'KENDUJHAR', 'KHORDHA', 'KORAPUT', 'MALKANGIRI', 'MAYURBHANJ', 'NABARANGPUR', 'NAYAGARH', 'NUAPADA', 'PURI', 'RAYAGADA', 'SAMBALPUR', 'SONEPUR', 'SUNDARGARH'], 
+       'Puducherry': ['KARAIKAL', 'MAHE', 'PONDICHERRY', 'YANAM'], 'Punjab': ['AMRITSAR', 'BARNALA', 'BATHINDA', 'FARIDKOT', 'FATEHGARH SAHIB', 'FAZILKA', 'FIROZEPUR', 'GURDASPUR', 'HOSHIARPUR', 'JALANDHAR', 'KAPURTHALA', 'LUDHIANA', 'MANSA', 'MOGA', 'MUKTSAR', 'NAWANSHAHR', 'PATHANKOT', 'PATIALA', 'RUPNAGAR', 'S.A.S NAGAR', 'SANGRUR', 'TARN TARAN'], 
+       'Rajasthan': ['AJMER', 'ALWAR', 'BANSWARA', 'BARAN', 'BARMER', 'BHARATPUR', 'BHILWARA', 'BIKANER', 'BUNDI', 'CHITTORGARH', 'CHURU', 'DAUSA', 'DHOLPUR', 'DUNGARPUR', 'GANGANAGAR', 'HANUMANGARH', 'JAIPUR', 'JAISALMER', 'JALORE', 'JHALAWAR', 'JHUNJHUNU', 'JODHPUR', 'KARAULI', 'KOTA', 'NAGAUR', 'PALI', 'PRATAPGARH', 'RAJSAMAND', 'SAWAI MADHOPUR', 'SIKAR', 'SIROHI', 'TONK', 'UDAIPUR'], 
+       'Sikkim': ['EAST DISTRICT', 'NORTH DISTRICT', 'SOUTH DISTRICT', 'WEST DISTRICT'], 
+       'Tamil Nadu': ['ARIYALUR', 'COIMBATORE', 'CUDDALORE', 'DHARMAPURI', 'DINDIGUL', 'ERODE', 'KANCHIPURAM', 'KANNIYAKUMARI', 'KARUR', 'KRISHNAGIRI', 'MADURAI', 'NAGAPATTINAM', 'NAMAKKAL', 'PERAMBALUR', 'PUDUKKOTTAI', 'RAMANATHAPURAM', 'SALEM', 'SIVAGANGA', 'THANJAVUR', 'THE NILGIRIS', 'THENI', 'THIRUVALLUR', 'THIRUVARUR', 'TIRUCHIRAPPALLI', 'TIRUNELVELI', 'TIRUPPUR', 'TIRUVANNAMALAI', 'TUTICORIN', 'VELLORE', 'VILLUPURAM', 'VIRUDHUNAGAR'], 
+       'Telangana': ['ADILABAD', 'HYDERABAD', 'KARIMNAGAR', 'KHAMMAM', 'MAHBUBNAGAR', 'MEDAK', 'NALGONDA', 'NIZAMABAD', 'RANGAREDDI', 'WARANGAL'], 
+       'Tripura': ['DHALAI', 'GOMATI', 'KHOWAI', 'NORTH TRIPURA', 'SEPAHIJALA', 'SOUTH TRIPURA', 'UNAKOTI', 'WEST TRIPURA'], 
+       'Uttar Pradesh': ['AGRA', 'ALIGARH', 'ALLAHABAD', 'AMBEDKAR NAGAR', 'AMETHI', 'AMROHA', 'AURAIYA', 'AZAMGARH', 'BAGHPAT', 'BAHRAICH', 'BALLIA', 'BALRAMPUR', 'BANDA', 'BARABANKI', 'BAREILLY', 'BASTI', 'BIJNOR', 'BUDAUN', 'BULANDSHAHR', 'CHANDAULI', 'CHITRAKOOT', 'DEORIA', 'ETAH', 'ETAWAH', 'FAIZABAD', 'FARRUKHABAD', 'FATEHPUR', 'FIROZABAD', 'GAUTAM BUDDHA NAGAR', 'GHAZIABAD', 'GHAZIPUR', 'GONDA', 'GORAKHPUR', 'HAMIRPUR', 'HAPUR', 'HARDOI', 'HATHRAS', 'JALAUN', 'JAUNPUR', 'JHANSI', 'KANNAUJ', 'KANPUR DEHAT', 'KANPUR NAGAR', 'KASGANJ', 'KAUSHAMBI', 'KHERI', 'KUSHI NAGAR', 'LALITPUR', 'LUCKNOW', 'MAHARAJGANJ', 'MAHOBA', 'MAINPURI', 'MATHURA', 'MAU', 'MEERUT', 'MIRZAPUR', 'MORADABAD', 'MUZAFFARNAGAR', 'PILIBHIT', 'PRATAPGARH', 'RAE BARELI', 'RAMPUR', 'SAHARANPUR', 'SAMBHAL', 'SANT KABEER NAGAR', 'SANT RAVIDAS NAGAR', 'SHAHJAHANPUR', 'SHAMLI', 'SHRAVASTI', 'SIDDHARTH NAGAR', 'SITAPUR', 'SONBHADRA', 'SULTANPUR', 'UNNAO', 'VARANASI'], 
+       'Uttarakhand': ['ALMORA', 'BAGESHWAR', 'CHAMOLI', 'CHAMPAWAT', 'DEHRADUN', 'HARIDWAR', 'NAINITAL', 'PAURI GARHWAL', 'PITHORAGARH', 'RUDRA PRAYAG', 'TEHRI GARHWAL', 'UDAM SINGH NAGAR', 'UTTAR KASHI'], 
+       'West Bengal': ['24 PARAGANAS NORTH', '24 PARAGANAS SOUTH', 'BANKURA', 'BARDHAMAN', 'BIRBHUM', 'COOCHBEHAR', 'DARJEELING', 'DINAJPUR DAKSHIN', 'DINAJPUR UTTAR', 'HOOGHLY', 'HOWRAH', 'JALPAIGURI', 'MALDAH', 'MEDINIPUR EAST', 'MEDINIPUR WEST', 'MURSHIDABAD', 'NADIA', 'PURULIA']
+      };
+      
+      // get months enum value
+      const months = {
+        January: 1,
+        February: 2,
+        March: 3,
+        April: 4,
+        May: 5,
+        June: 6,
+        July: 7,
+        August: 8,
+        September: 9,
+        October: 10,
+        November: 11,
+        December: 12
+      };
+      
+      function getMonthNumber(monthName) {
+        return months[monthName];
+      }
+      //----------------------------------------------------------------
+      
+      //-----dropdownlist actions---------------------------
+      function updateDistrictList(selectedState) {
+        var districtList = document.getElementById("districtList");
+        districtList.options.length = 0;
+        
+        var districts = stateDistricts[selectedState];
+        for (var i = 0; i < districts.length; i++) {
+          districtList.options[districtList.options.length] = new Option(districts[i], districts[i]);
+        }
+      }
+      //-----------------------------------------------------
+
+
+    //--------------dates for next 2 months-------------------------------  
+	  function getDates(month) {
+		const date = new Date();
+		console.log(date)
+		date.setMonth(month);
+		date.setDate(1);
+		const firstDay = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		date.setDate(11);
+		const eleventhDay = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		date.setDate(21);
+		const twentyFirstDay = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		date.setMonth(month + 1);
+		date.setDate(1);
+		const firstDayNextMonth = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		date.setDate(11);
+		const eleventhDayNextMonth = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		date.setDate(21);
+		const twentyFirstDayNextMonth = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+		return [firstDay,eleventhDay,twentyFirstDay,firstDayNextMonth,eleventhDayNextMonth,twentyFirstDayNextMonth]
+	  }
+    
+    //-----------------------------------------------------------------------
+	  
+
+    //----------button on click-------------------------
+
+      function submitForm() {
+
+        //-------get values from input feilds-----------
+        var stateList = document.getElementById("stateList");
+        var districtList = document.getElementById("districtList");
+        var select = document.getElementById("month");
+        var selectedMonth = select.options[select.selectedIndex].text;
+        var state = stateList.options[stateList.selectedIndex].text;
+        var district = districtList.options[districtList.selectedIndex].text;
+
+        const n = parseInt(document.querySelector("#n_val").value);
+        const p = parseInt(document.querySelector("#p_val").value);
+        const k = parseInt(document.querySelector("#k_val").value);
+        const ph = parseInt(document.querySelector("#ph_val").value);
+        
+        if (ph < 1 || ph > 14) {
+          alert("Input ph must be a number between 1 and 14");
+          return false;
+        }
+
+        if (n < 0 ) {
+          alert("nitrogen must be greater than 0");
+
+        }
+
+        if (p < 0) {
+          alert("phosporous must be greater than 0");
+          return false;
+        }
+
+        if (k<0) {
+          alert("pottasium must be greater than 0");
+          return false;
+        }
+
+
+        console.log(`The values of n, p,k and ph are: ${n}, ${p},${k} and ${ph}.`);
+        console.log("State: " + state);
+        console.log("District: " + district);
+        console.log("Selected Month: " + selectedMonth);
+        
+        month = getMonthNumber(selectedMonth);
+        let tot_hum_two_months=0;
+        let tot_temp_two_months=0;
+        let tot_precip_two_months = 0;
+
+    //----------------fetch data from api----------------------
+		function fetchDataFromAPI(apiKey, apiURL) {  
+			fetch(apiURL + `&APPID=${apiKey}`)
+			  .then(response => response.json())
+			  .then(data => {
+				tot_hum_two_months = tot_hum_two_months + data.forecast.forecastday[0].day.avghumidity;
+				tot_temp_two_months = tot_temp_two_months + data.forecast.forecastday[0].day.avgtemp_c
+				tot_precip_two_months = tot_precip_two_months + data.forecast.forecastday[0].day.totalprecip_mm
+				console.group(data.forecast.forecastday[0].day.avghumidity);
+				console.log(data.forecast.forecastday[0].day.avgtemp_c);
+				console.log(data.forecast.forecastday[0].day.totalprecip_mm);
+				console.log("\-----------------------------------------------------------")
+			  })
+			  .catch(error => {
+				console.error(error);
+			  });
+		  }
+      //--------------------------------------------------------
+
+      //call 6 dates to get average weather data------------------------------
+		  dates_arr = getDates(month);
+      for ( let i = 0 ; i < dates_arr.length; i++){
+        fetchDataFromAPI("edad5ad2a8cf4e788a431940230111", `http://api.weatherapi.com/v1/future.json?key=9fb0ebaa2eee423fb35151624231102&q=${district},${state},india&dt=${dates_arr[i]}`);
+      }
+      setTimeout(() => {
+        console.log("averages : ", tot_hum_two_months,tot_temp_two_months,tot_precip_two_months);
+        const textArea = document.querySelector("#hidden-text-area");
+      textArea.value = state + "|" + district + "|" + selectedMonth +"|" + n + "|" + p + "|" + k + "|" + ph+"|"+ tot_hum_two_months/6 + "|" + tot_temp_two_months/6 + "|" + tot_precip_two_months/6; 
+      document.getElementById("clickMe").click();
+    
+    },1000);
+      }
+      //------------------------------------------------------------------------
+
+    </script>
+  
+  </head>
+  <body>
+
+	<center>
+		<p class="mainheading">SASTRA-LWC</p>
+		<p class="descrpn">Crop Suggestion</p>
+	<p class="caption">
+		&nbsp you decide the place and time<br>
+		we suggest the crop which is fine<br>
+	</p>
+
+    <div class="dropdownselect">
+		
+		<select id="stateList" onchange="updateDistrictList(this.value)">
+			<option value="">Select a state</option>
+			<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+			<option value="Andhra Pradesh">Andhra Pradesh</option>
+			<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+			<option value="Assam">Assam</option>
+			<option value="Bihar">Bihar</option>
+			<option value="Chandigarh">Chandigarh</option>
+			<option value="Chhattisgarh">Chhattisgarh</option>
+			<option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+			<option value="Goa">Goa</option>
+			<option value="Gujarat">Gujarat</option>
+			<option value="Haryana">Haryana</option>
+			<option value="Himachal Pradesh">Himachal Pradesh</option>
+			<option value="Jammu and Kashmir ">Jammu and Kashmir </option>
+			<option value="Jharkhand">Jharkhand</option>
+			<option value="Karnataka">Karnataka</option>
+			<option value="Kerala">Kerala</option>
+			<option value="Madhya Pradesh">Madhya Pradesh</option>
+			<option value="Maharashtra">Maharashtra</option>
+			<option value="Manipur">Manipur</option>
+			<option value="Meghalaya">Meghalaya</option>
+			<option value="Mizoram">Mizoram</option>
+			<option value="Nagaland">Nagaland</option>
+			<option value="Odisha">Odisha</option>
+			<option value="Puducherry">Puducherry</option>
+			<option value="Rajasthan">Rajasthan</option>
+			<option value="Sikkim">Sikkim</option>
+			<option value="Tamil Nadu">Tamil Nadu</option>
+			<option value="Telangana">Telangana</option>
+			<option value="Tripura">Tripura</option>
+			<option value="Uttar Pradesh">Uttar Pradesh</option>
+			<option value="Uttarakhand">Uttarakhand</option>
+			<option value="West Bengal">West Bengal</option>
+		</select>
+    <br>
+
+		<select id="districtList">
+			<option value="">Select a district</option>
+		</select>
+
+    <br>
+		<select id="month">
+			<option value="">Select a Month</option>
+			<option value="1">January</option>
+			<option value="2">February</option>
+			<option value="3">March</option>
+			<option value="4">April</option>
+			<option value="5">May</option>
+			<option value="6">June</option>
+			<option value="7">July</option>
+			<option value="8">August</option>
+			<option value="9">September</option>
+			<option value="10">October</option>
+			<option value="11">November</option>
+			<option value="12">December</option>
+		</select>
+    <br>
+    <p style="color:black; font-weight:bold; font-size:larger;">Enter Nitrogen Value</p>
+    <input type="text" id="n_val" >
+    <p style="color:black; font-weight:bold; font-size:larger">Enter Phosphorous Value</p>
+    <input type="text" id="p_val" >
+    <p style="color:black; font-weight:bold; font-size:larger">Enter Potassium Value</p>
+    <input type="text" id="k_val" >
+    <p style="color:black; font-weight:bold; font-size:larger">Enter pH Value</p>
+    <input type="text" id="ph_val" >
+    <br>
+    <br>
+  </div>
+  <input class="findbtn" type="submit" value="Know Your Crop" onclick="submitForm()">
+
+  </center>
+
+  <div class="tobehidden">
+  <form action="send_to_server">
+    <textarea  id="hidden-text-area" name = "hidden-text-area"></textarea>
+    <button id="clickMe" type:"submit">send to server</button>
+  </form>
+</div>
+  
+  </body>
+</html>
